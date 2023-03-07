@@ -8,14 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var pokemonListData = PokemonData()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationStack {
+            List {
+                ForEach(pokemonListData.pokemonList) { pokemon in
+                    HStack {
+                        AsyncImage(url: pokemon.sprites.frontImage) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 80)
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        Text(pokemon.name)
+                    }
+                }
+            }
+            .onAppear(perform: pokemonListData.onAppear)
+            .navigationTitle("初代ポケモン")
         }
-        .padding()
     }
 }
 
