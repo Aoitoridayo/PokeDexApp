@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PokemonViewModel: ObservableObject {
+final class PokemonViewModel: ObservableObject {
     @Published var pokemonList: [Pokemon] = []
     let APIClient = PokemonAPIClient()
     
