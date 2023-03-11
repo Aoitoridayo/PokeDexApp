@@ -9,8 +9,23 @@ import Foundation
 
 final class PokemonAPIClient {
     
-    //
-    func fetch(url: String) async -> Pokemon? {
+    //102回通信を行い配列化して返すメソッド
+    func getPokemons() async -> [Pokemon]? {
+        var pokemonList: [Pokemon] = []
+        let urls = getURLs()
+        
+         for url in urls {
+             if let pokemon = await fetch(url: url) {
+                 pokemonList.append(pokemon)
+             } else {
+                 return nil
+             }
+        }
+        return pokemonList
+    }
+    
+    //ポケモン一匹分のデータを返す
+    private func fetch(url: String) async -> Pokemon? {
         guard let reqestURL = URL(string: url) else {
             return nil
         }
@@ -24,7 +39,7 @@ final class PokemonAPIClient {
     }
     
     //ポケモン151体分のリクエストURL作成メソッド
-    func getURLs() -> [String] {
+    private func getURLs() -> [String] {
         let pokemonIdRange = 906...1008
         let url: [String] = pokemonIdRange.map {
             "https://pokeapi.co/api/v2/pokemon/\($0)/"

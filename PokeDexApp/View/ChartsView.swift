@@ -39,7 +39,7 @@ struct ChartsView: View {
                         Button(action: {
                             back()
                         }) {
-                            Text("back")
+                            Text("< back")
                         }
                     }
                 }

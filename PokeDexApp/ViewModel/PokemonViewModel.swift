@@ -8,23 +8,24 @@
 import Foundation
 
 final class PokemonViewModel: ObservableObject {
+    //リストに表示するためのインスタンス
     @Published var pokemonList: [Pokemon] = []
+    //API検索モデルのインスタンス
     let APIClient = PokemonAPIClient()
     
+    //アプリ起動時に呼び出されるメソッド
     func onAppear() {
-        let urls = APIClient.getURLs()
         Task {
-            await fetchPokemonData(urls: urls)
+            await getPokemons()
         }
     }
     
     @MainActor
-    private func fetchPokemonData(urls: [String]) async {
-        for url in urls {
-            if let pokemon = await APIClient.fetch(url: url) {
-                pokemonList.append(pokemon)
-            }
-            else {
+    private func getPokemons() {
+        Task {
+            if let pokemons = await APIClient.getPokemons() {
+                pokemonList = pokemons
+            } else {
                 print("エラー")
             }
         }
