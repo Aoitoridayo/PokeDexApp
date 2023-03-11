@@ -26,10 +26,17 @@ struct Sprites: Decodable {
 }
 
 //ポケモンのステータス(現段階では未使用)
-struct Stats: Decodable {
+struct Stats: Decodable, Identifiable {
     let value: Int
+    let stat: Stat
     
+    var id: String { stat.name }
     enum CodingKeys: String, CodingKey {
         case value = "base_stat"
+        case stat
     }
+}
+
+struct Stat: Decodable {
+    let name: String
 }

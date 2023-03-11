@@ -9,17 +9,30 @@ import SwiftUI
 
 struct ListRow: View {
     @State var pokemon: Pokemon
+    @State var isChartsView = false
     var body: some View {
         HStack {
-            AsyncImage(url: pokemon.sprites.frontImage) { image in
-                image
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 80)
-            } placeholder: {
-                ProgressView()
+            HStack {
+                AsyncImage(url: pokemon.sprites.frontImage) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 80)
+                } placeholder: {
+                    ProgressView()
+                }
+                Text(pokemon.name)
             }
-            Text(pokemon.name)
+            Spacer()
+            Button(action: {
+                isChartsView = true
+            }) {
+                Image(systemName: "magnifyingglass")
+            }
+            .buttonStyle(.borderless)
+        }
+        .sheet(isPresented: $isChartsView) {
+            ChartsView(pokemon: pokemon, back: { isChartsView = false })
         }
     }
 }
