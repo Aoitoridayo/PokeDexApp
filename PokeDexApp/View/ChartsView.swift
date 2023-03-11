@@ -19,7 +19,7 @@ struct ChartsView: View {
                         image
                             .resizable()
                             .scaledToFit()
-                            .frame(height: 80)
+                            .frame(height: 100)
                     } placeholder: {
                         ProgressView()
                     }

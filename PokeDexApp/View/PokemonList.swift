@@ -11,10 +11,8 @@ struct PokemonList: View {
     @StateObject var pokemonListData = PokemonViewModel()
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(pokemonListData.pokemonList) { pokemon in
-                    ListRow(pokemon: pokemon)
-                }
+            List(pokemonListData.pokemonList) { pokemon in
+                ListRow(pokemon: pokemon)
             }
             .onAppear(perform: pokemonListData.onAppear)
             .navigationTitle("新ポケモン")
