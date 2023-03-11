@@ -25,7 +25,7 @@ final class PokemonAPIClient {
     
     //ポケモン151体分のリクエストURL作成メソッド
     func getURLs() -> [String] {
-        let pokemonIdRange = 1...151
+        let pokemonIdRange = 906...1008
         let url: [String] = pokemonIdRange.map {
             "https://pokeapi.co/api/v2/pokemon/\($0)/"
         }

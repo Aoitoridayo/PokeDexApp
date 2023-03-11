@@ -17,7 +17,7 @@ struct PokemonList: View {
                 }
             }
             .onAppear(perform: pokemonListData.onAppear)
-            .navigationTitle("初代ポケモン")
+            .navigationTitle("新ポケモン")
         }
     }
 }
