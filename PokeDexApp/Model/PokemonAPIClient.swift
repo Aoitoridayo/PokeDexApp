@@ -10,37 +10,42 @@ import Foundation
 final class PokemonAPIClient {
     
     //102回通信を行い配列化して返すメソッド
-    func getPokemons() async -> [Pokemon]? {
+    func getPokemons() async throws -> [Pokemon] {
         var pokemonList: [Pokemon] = []
         let urls = getURLs()
         
-         for url in urls {
-             if let pokemon = await fetch(url: url) {
-                 pokemonList.append(pokemon)
-             } else {
-                 return nil
-             }
+        do {
+            for url in urls {
+                let pokemon = try await fetch(url: url)
+                pokemonList.append(pokemon)
+            }
+            return pokemonList
+        } catch {
+            switch error as? APIError ?? APIError.unknown {
+            case .invalidURL:
+                throw APIError.invalidURL
+            case .networkError:
+                throw APIError.networkError
+            default:
+                throw APIError.unknown
+            }
         }
-        return pokemonList
     }
     
     //ポケモン一匹分のデータを返す
-    private func fetch(url: String) async -> Pokemon? {
+    private func fetch(url: String) async throws -> Pokemon {
         guard let reqestURL = URL(string: url) else {
-            return nil
+            throw APIError.invalidURL
         }
-        do {
-            let (data, _) = try await URLSession.shared.data(from: reqestURL)
-            let result = try JSONDecoder().decode(Pokemon.self, from: data)
-            return result
-        } catch {
-            return nil
-        }
+        
+        let (data, _) = try await URLSession.shared.data(from: reqestURL)
+        let result = try JSONDecoder().decode(Pokemon.self, from: data)
+        return result
     }
     
     //ポケモン151体分のリクエストURL作成メソッド
     private func getURLs() -> [String] {
-        let pokemonIdRange = 906...1008
+        let pokemonIdRange = 1...151
         let url: [String] = pokemonIdRange.map {
             "https://pokeapi.co/api/v2/pokemon/\($0)/"
         }
