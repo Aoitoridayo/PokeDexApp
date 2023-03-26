@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PokemonList: View {
+struct PokemonListView: View {
     @StateObject var pokemonListData = PokemonViewModel()
     var body: some View {
         NavigationStack {
@@ -15,13 +15,13 @@ struct PokemonList: View {
                 ListRow(pokemon: pokemon)
             }
             .onAppear(perform: pokemonListData.onAppear)
-            .navigationTitle("新ポケモン")
+            .navigationTitle("初代ポケモン")
         }
     }
 }
 
 struct PokemonListView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonList()
+        PokemonListView()
     }
 }

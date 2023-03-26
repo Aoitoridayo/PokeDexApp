@@ -40,6 +40,7 @@ struct ListRow: View {
 struct Preview: View {
     static var url: URL = URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!
     @State var pokemon = Pokemon(name: "フシギダネ", sprites: Sprites(frontImage: url), stats: [])
+    @StateObject var pokemonList = PokemonViewModel()
     var body: some View {
         ListRow(pokemon: pokemon)
     }
