@@ -21,13 +21,15 @@ final class PokemonViewModel: ObservableObject {
     }
     
     @MainActor
-    private func getPokemons() {
-        Task {
-            if let pokemons = await APIClient.getPokemons() {
-                pokemonList = pokemons
-            } else {
-                print("エラー")
-            }
+    private func getPokemons() async {
+        print("getPokemonsが呼ばれました。")
+        do {
+            let pokemons = try await APIClient.getPokemons()
+            print("getPokemons成功")
+            pokemonList = pokemons
+        } catch {
+            print("getPokemons失敗")
+            print(error)
         }
     }
 }
