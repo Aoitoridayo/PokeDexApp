@@ -1,4 +1,4 @@
-# PokeDexApp - ポケモン図鑑（SV）
+# PokeDexApp - ポケモン図鑑（初代）
 
 API通信、SwiftChartsの学習のために作成しました。
 
