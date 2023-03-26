@@ -37,10 +37,13 @@ final class PokemonAPIClient {
         guard let reqestURL = URL(string: url) else {
             throw APIError.invalidURL
         }
-        
-        let (data, _) = try await URLSession.shared.data(from: reqestURL)
-        let result = try JSONDecoder().decode(Pokemon.self, from: data)
-        return result
+        do {
+            let (data, _) = try await URLSession.shared.data(from: reqestURL)
+            let result = try JSONDecoder().decode(Pokemon.self, from: data)
+            return result
+        } catch {
+            throw APIError.networkError
+        }
     }
     
     //ポケモン151体分のリクエストURL作成メソッド
