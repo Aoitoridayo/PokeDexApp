@@ -22,14 +22,12 @@ final class PokemonViewModel: ObservableObject {
     
     @MainActor
     private func getPokemons() async {
-        print("getPokemonsが呼ばれました。")
         do {
             let pokemons = try await APIClient.getPokemons()
-            print("getPokemons成功")
             pokemonList = pokemons
         } catch {
-            print("getPokemons失敗")
-            print(error)
+            let error = error as? APIError ?? APIError.unknown
+            print(error.title)
         }
     }
 }
