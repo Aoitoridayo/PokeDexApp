@@ -10,13 +10,10 @@ import Foundation
 enum APIError: Error {
     case invalidURL
     case networkError
-    case DecodeError
     case unknown
 
     var title: String {
         switch self {
-        case .DecodeError:
-            return "解析エラー"
         case .invalidURL:
             return "無効なURLのエラー"
         case .networkError:

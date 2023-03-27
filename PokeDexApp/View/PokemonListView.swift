@@ -14,8 +14,10 @@ struct PokemonListView: View {
             List(pokemonListData.pokemonList) { pokemon in
                 ListRow(pokemon: pokemon)
             }
-            .onAppear(perform: pokemonListData.onAppear)
             .navigationTitle("初代ポケモン")
+            .task {
+                await pokemonListData.getPokemons()
+            }
         }
     }
 }

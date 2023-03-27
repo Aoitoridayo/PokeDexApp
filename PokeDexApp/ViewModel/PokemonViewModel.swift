@@ -10,21 +10,14 @@ import Foundation
 final class PokemonViewModel: ObservableObject {
     //リストに表示するためのインスタンス
     @Published var pokemonList: [Pokemon] = []
-    //API検索モデルのインスタンス
-    let APIClient = PokemonAPIClient()
-    
-    //アプリ起動時に呼び出されるメソッド
-    func onAppear() {
-        Task {
-            await getPokemons()
-        }
-    }
-    
-    @MainActor
-    private func getPokemons() async {
+
+    func getPokemons() async {
+        let APIClient = PokemonAPIClient()
         do {
             let pokemons = try await APIClient.getPokemons()
-            pokemonList = pokemons
+            DispatchQueue.main.async {
+                self.pokemonList = pokemons
+            }
         } catch {
             let error = error as? APIError ?? APIError.unknown
             print(error.title)

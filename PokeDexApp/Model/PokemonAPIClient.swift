@@ -9,11 +9,10 @@ import Foundation
 
 final class PokemonAPIClient {
     
-    //102回通信を行い配列化して返すメソッド
+    //151回通信を行い配列化して返すメソッド
     func getPokemons() async throws -> [Pokemon] {
         var pokemonList: [Pokemon] = []
         let urls = getURLs()
-        
         do {
             for url in urls {
                 let pokemon = try await fetch(url: url)
