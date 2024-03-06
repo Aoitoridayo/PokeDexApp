@@ -8,15 +8,17 @@
 import Foundation
 
 final class PokemonViewModel: ObservableObject {
-    //リストに表示するためのインスタンス
-    @Published var pokemonList: [Pokemon] = []
 
+    @Published var pokemonList: [Pokemon] = []
+    @Published var selectedGeneration = Generation.Frist
+
+    @MainActor
     func getPokemons() async {
         let APIClient = PokemonAPIClient()
         do {
-            let pokemons = try await APIClient.getPokemons()
-            DispatchQueue.main.async {
-                self.pokemonList = pokemons
+            for number in selectedGeneration.numbers {
+                let pokemon = try await APIClient.fetchPokemon(number: number)
+                self.pokemonList.append(pokemon)
             }
         } catch {
             let error = error as? APIError ?? APIError.unknown

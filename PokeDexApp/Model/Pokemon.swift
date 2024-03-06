@@ -25,7 +25,6 @@ struct Sprites: Decodable {
     }
 }
 
-//ポケモンのステータス(現段階では未使用)
 struct Stats: Identifiable, Decodable {
     let value: Int
     let stat: Stat
