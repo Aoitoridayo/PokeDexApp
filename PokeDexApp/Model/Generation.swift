@@ -40,4 +40,27 @@ enum Generation {
             return 906...1025
         }
     }
+    
+    var title: String {
+        switch self {
+        case .Frist:
+            return "第一世代"
+        case .Second:
+            return "第二世代"
+        case .Third:
+            return "第三世代"
+        case .Fourth:
+            return "第四世代"
+        case .Fifth:
+            return "第五世代"
+        case .Sixth:
+            return "第六世代"
+        case .Seventh:
+            return "第七世代"
+        case .Eighth:
+            return "第八世代"
+        case .Ninth:
+            return "第九世代"
+        }
+    }
 }

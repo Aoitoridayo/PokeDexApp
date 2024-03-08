@@ -7,15 +7,15 @@
 
 import Foundation
 
-final class PokemonAPIClient {
+final class PokeAPIClient {
     
-    func fetchPokemon(number: Int) async throws -> Pokemon {
+    func fetchPokemon(number: Int) async throws -> PokemonDTO {
         guard let url = URLCreater().createURL(number: number).url else {
             throw APIError.invalidURL
         }
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
-            return try JSONDecoder().decode(Pokemon.self, from: data)
+            return try JSONDecoder().decode(PokemonDTO.self, from: data)
         } catch {
             throw APIError.networkError
         }

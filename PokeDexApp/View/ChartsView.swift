@@ -10,12 +10,12 @@ import Charts
 
 struct ChartsView: View {
     @State var pokemon: Pokemon
-    let back: () -> Void
+//    let back: () -> Void
     var body: some View {
         NavigationStack {
             VStack {
                 HStack {
-                    AsyncImage(url: pokemon.sprites.frontImage) { image in
+                    AsyncImage(url: pokemon.imageURL) { image in
                         image
                             .resizable()
                             .scaledToFit()
@@ -25,24 +25,24 @@ struct ChartsView: View {
                     }
                     Text(pokemon.name)
                 }
-                Chart(pokemon.stats) { element in
+                Chart(pokemon.stats, id: \.self.name) { element in
                     BarMark(
                         x: .value("value", element.value),
-                        y: .value("kind", element.stat.name)
+                        y: .value("kind", element.name)
                     )
                 }
                 .chartXScale(domain: [0, 200])
                 .frame(height: 350)
                 .padding([.all], 20)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: {
-                            back()
-                        }) {
-                            Text("< back")
-                        }
-                    }
-                }
+//                .toolbar {
+//                    ToolbarItem(placement: .navigationBarLeading) {
+//                        Button(action: {
+//                            back()
+//                        }) {
+//                            Text("< back")
+//                        }
+//                    }
+//                }
             }
         }
     }

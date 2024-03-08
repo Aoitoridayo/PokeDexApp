@@ -1,41 +1,33 @@
 //
-//  PokemonModel.swift
+//  Pokemon.swift
 //  PokeDexApp
 //
-//  Created by 渡邊魁優 on 2023/03/07.
+//  Created by 渡邊魁優 on 2024/03/07.
 //
 
 import Foundation
 
-//ポケモンのモデル
-struct Pokemon: Identifiable, Decodable {
+struct Pokemon: Identifiable {
+    let id: String
     let name: String
-    let sprites: Sprites
+    let imageURL: URL
+    let types: [PokemonType]
     let stats: [Stats]
     
-    var id: String { name }
-}
-
-//画像データ
-struct Sprites: Decodable {
-    let frontImage: URL
-    
-    enum CodingKeys: String, CodingKey {
-        case frontImage = "front_default"
+    struct Stats {
+        let value: Int
+        let name: String
     }
-}
-
-struct Stats: Identifiable, Decodable {
-    let value: Int
-    let stat: Stat
     
-    var id: String { stat.name }
-    enum CodingKeys: String, CodingKey {
-        case value = "base_stat"
-        case stat
+    init(pokemonDTO: PokemonDTO) {
+        self.id = pokemonDTO.id
+        self.name = pokemonDTO.name
+        self.imageURL = pokemonDTO.sprites.frontImage
+        self.types = pokemonDTO.types.map {
+            PokemonType(type: $0.type.name)
+        }
+        self.stats = pokemonDTO.stats.map {
+            Stats(value: $0.value, name: $0.stat.name)
+        }
     }
-}
-
-struct Stat: Decodable {
-    let name: String
 }

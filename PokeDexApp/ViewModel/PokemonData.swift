@@ -7,18 +7,19 @@
 
 import Foundation
 
-final class PokemonViewModel: ObservableObject {
+final class PokemonData: ObservableObject {
 
-    @Published var pokemonList: [Pokemon] = []
+    @Published var pokemons: [Pokemon] = []
     @Published var selectedGeneration = Generation.Frist
 
     @MainActor
-    func getPokemons() async {
-        let APIClient = PokemonAPIClient()
+    func fetchPomemons() async {
+        let APIClient = PokeAPIClient()
         do {
             for number in selectedGeneration.numbers {
-                let pokemon = try await APIClient.fetchPokemon(number: number)
-                self.pokemonList.append(pokemon)
+                let pokemonDTO = try await APIClient.fetchPokemon(number: number)
+                let pokemon = Pokemon(pokemonDTO: pokemonDTO)
+                self.pokemons.append(pokemon)
             }
         } catch {
             let error = error as? APIError ?? APIError.unknown
